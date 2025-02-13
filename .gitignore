@@ -1,0 +1,7 @@
+node_modules
+
+package-lock.json
+
+# Escrever sobre isso
+/public/javascript/ether.min.js
+

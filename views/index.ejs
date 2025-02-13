@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' http://localhost:3000 https://cdnjs.cloudflare.com;">
+    <title>E Agora?</title>
+    <link rel="stylesheet" href="css/index_styles.css">
+    <script type="module" defer>
+        import { ethers } from "/javascript/ethers.min.js";
+        // criando um provider com base em v6
+        let provider = new ethers.BrowserProvider(window.ethereum);
+
+        // Importando ABI do MercadoSimples
+        const MercadoSimples = await fetch('/json/MercadoSimples.json');
+        const MercadoSimplesJSON = await MercadoSimples.json();
+        const MercadoSimplesABI = MercadoSimplesJSON["abi"];
+
+        // Efetivamente contrato
+        const contrato = new ethers.Contract(window.MercadoSimples, MercadoSimplesABI, provider);
+        console.log("getNumeroDePrevisoes: ", await contrato.getNumeroDePrevisoes());
+    </script>
+    <script src="/javascript/index.js"></script>
+    <script>
+        window.MyToken = "<%= MyToken %>";
+        window.MercadoSimples = "<%= MercadoSimples %>";
+    </script>
+</head>
+<body>
+    <h1>E Agora?</h1>
+    <p>Um mercado de previsões opensource para quem quiser testar!</p>
+    <div class="listaprevisoes" id="listaprevisoes">
+    </div>
+</body>
+</html>
