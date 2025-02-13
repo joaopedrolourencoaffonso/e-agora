@@ -1,4 +1,4 @@
-# e-agora
+# E Agora?
 Interface web para interagir com contratos de predição.
 
 Acompanha o projeto [simple-prediction-market](https://github.com/joaopedrolourencoaffonso/simple-prediction-market).
