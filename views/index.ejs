@@ -11,16 +11,57 @@
         // criando um provider com base em v6
         let provider = new ethers.BrowserProvider(window.ethereum);
 
+        // função que cria o os links;
+        async function iniciandoPagina(numero,provider) {
+            const div = document.getElementById('listaprevisoes'); // Get the div element
+            div.innerHTML = ''; // Clear any existing content inside the div
+                
+            // Iterate over numbers 1 to 10
+            let previsao;
+            for (let i = 1; i <= numero; i++) {
+                // pegando detalhes da previsao
+                previsao = await contrato.getPrevisao(i);
+                console.log(previsao);
+
+                // Create a new div container for the link
+                let linkContainer = document.createElement('div');
+                
+                // Add the specified class to the div
+                linkContainer.classList.add('link-container');
+
+                // Create a new link element
+                let link = document.createElement('a');
+                link.href = `/previsao/${i}`; // Set the link's href
+                link.textContent = previsao[0]; // Set the link's text
+                
+                // Append the link to the div container
+                linkContainer.appendChild(link);
+                
+                // Append the div container to the main div
+                div.appendChild(linkContainer);
+                
+                // Optionally, add a line break after each link container
+                div.appendChild(document.createElement('br'));
+
+                //console.log(linkContainer);
+            }
+        }
+
         // Importando ABI do MercadoSimples
         const MercadoSimples = await fetch('/json/MercadoSimples.json');
         const MercadoSimplesJSON = await MercadoSimples.json();
         const MercadoSimplesABI = MercadoSimplesJSON["abi"];
 
-        // Efetivamente contrato
+        // Efetivamente contactando o contrato
         const contrato = new ethers.Contract(window.MercadoSimples, MercadoSimplesABI, provider);
-        console.log("getNumeroDePrevisoes: ", await contrato.getNumeroDePrevisoes());
+        let result = await contrato.getNumeroDePrevisoes();
+        let numeroPrevisoes = Number(result);
+        console.log("getNumeroDePrevisoes: ", numeroPrevisoes);
+
+        // populando a página com links
+        await iniciandoPagina(numeroPrevisoes,provider);
     </script>
-    <script src="/javascript/index.js"></script>
+    <!--<script src="/javascript/index.js"></script>-->
     <script>
         window.MyToken = "<%= MyToken %>";
         window.MercadoSimples = "<%= MercadoSimples %>";
