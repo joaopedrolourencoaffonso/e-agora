@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@metamask/sdk": "^0.26.3",
+    "chart.js": "^4.4.7",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "ethers": "^6.13.1",

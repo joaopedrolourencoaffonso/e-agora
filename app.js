@@ -43,6 +43,9 @@ app.get('/previsao/:idDaPrevisao', async (req, res) => {
   }
 });
 
+// Serve static files from the 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Start server
 app.listen(server_port, () => {
   console.log(`Server running at http://localhost:${server_port}`);

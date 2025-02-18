@@ -3,13 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' http://localhost:3000 https://cdnjs.cloudflare.com;">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
     <title></title>
-    <link rel="stylesheet" href="css/index_styles.css">
+    <link rel="stylesheet" href="/css/previsao_styles.css">
+    <script src="/javascript/chart.umd.js"></script>
     <script type="module" defer>
         import { ethers } from "/javascript/ethers.min.js";
         // criando um provider com base em v6
         let provider = new ethers.BrowserProvider(window.ethereum);
+
+        // populando gráfico de investimentos
+        function createInvestmentChart(yesInvest, noInvest) {
+            // Get the context of the canvas element
+            const ctx = document.getElementById('investmentChart').getContext('2d');
+
+            // Create the pie chart
+            const investmentChart = new Chart(ctx, {
+                type: 'pie',  // Pie chart
+                data: {
+                    labels: ['Sim', 'Não'],  // Labels for the pie chart
+                    datasets: [{
+                        data: [yesInvest, noInvest],  // Data for the chart
+                        backgroundColor: ['#36a2eb', '#ff6384'],  // Colors for each segment
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': R$' + tooltipItem.raw;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Populando grafico de votos
+        function createVoteChart(yesVotes, noVotes) {
+            // Get the context of the canvas element
+            const ctx = document.getElementById('voteChart').getContext('2d');
+
+            // Create the pie chart
+            const voteChart = new Chart(ctx, {
+                type: 'pie',  // Pie chart
+                data: {
+                    labels: ['Sim', 'Não'],  // Labels for the pie chart
+                    datasets: [{
+                        data: [yesVotes, noVotes],  // Data for the chart
+                        backgroundColor: ['#36a2eb', '#ff6384'],  // Colors for each segment
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' votes';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
 
         // populando elementos
         function updateElementById(var1, var2) {
@@ -40,6 +108,9 @@
         updateElementById("votosNao", "Não: " + previsao[3]);
         updateElementById("totalSim", "Total investido em sim: R$" + previsao[5]);
         updateElementById("totalNao", "Total investido em não: R$" + previsao[6]);
+
+        await createVoteChart(Number(previsao[2]),Number(previsao[3]));
+        await createInvestmentChart(Number(previsao[5]),Number(previsao[6]));
     </script>
     <!--<script src="/javascript/index.js"></script>-->
     <script>
@@ -56,5 +127,10 @@
     <p id="votosNao"></p>
     <p id="totalSim"></p>
     <p id="totalNao"></p>
+
+    <div class="grafico">
+        <canvas id="voteChart"></canvas>
+        <canvas id="investmentChart"></canvas>
+    </div>
 </body>
 </html>
