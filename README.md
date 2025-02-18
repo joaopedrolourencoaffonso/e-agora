@@ -19,3 +19,7 @@ Resolvi baixando o [arquivo](https://github.com/ethers-io/ethers.js/blob/main/di
 ## Migrando do ethers v5 para o v6
 
 https://docs.ethers.org/v6/migrating/#migrate-providers
+
+## Observação
+
+A legalidade de mercados de predição no Brasil ainda é questionável. O presente projeto tem fins meramente educacionais e exemplificativos.

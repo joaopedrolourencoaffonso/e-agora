@@ -33,6 +33,16 @@ app.get('/', (req, res) => {
     }
 });
 
+app.get('/previsao/:idDaPrevisao', async (req, res) => {
+  try {
+      const idDaPrevisao = parseInt(req.params.idDaPrevisao);
+      res.render('previsao',{MyToken, MercadoSimples,idDaPrevisao});
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error retrieving message from smart contract');
+  }
+});
+
 // Start server
 app.listen(server_port, () => {
   console.log(`Server running at http://localhost:${server_port}`);

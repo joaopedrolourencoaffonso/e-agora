@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' http://localhost:3000 https://cdnjs.cloudflare.com;">
+    <title></title>
+    <link rel="stylesheet" href="css/index_styles.css">
+    <script type="module" defer>
+        import { ethers } from "/javascript/ethers.min.js";
+        // criando um provider com base em v6
+        let provider = new ethers.BrowserProvider(window.ethereum);
+
+        // populando elementos
+        function updateElementById(var1, var2) {
+            // Find the element with id = var1
+            let element = document.getElementById(var1);
+
+            // If the element exists, update its content
+            if (element) {
+                element.textContent = var2;  // Sets the text content of the element
+            } else {
+                console.log(`Element with id "${var1}" not found.`);
+            }
+        }
+
+        // Importando ABI do MercadoSimples
+        const MercadoSimples = await fetch('/json/MercadoSimples.json');
+        const MercadoSimplesJSON = await MercadoSimples.json();
+        const MercadoSimplesABI = MercadoSimplesJSON["abi"];
+
+        // Efetivamente contactando o contrato
+        const contrato = new ethers.Contract(window.MercadoSimples, MercadoSimplesABI, provider);
+        let previsao = await contrato.getPrevisao(window.idDaPrevisao);
+
+        updateElementById("titulo", previsao[0]);
+        updateElementById("descricao", "Descrição: " + previsao[1]);
+        updateElementById("status", "Status: " + previsao[4]);
+        updateElementById("votosSim", "Sim: " + previsao[2]);
+        updateElementById("votosNao", "Não: " + previsao[3]);
+        updateElementById("totalSim", "Total investido em sim: R$" + previsao[5]);
+        updateElementById("totalNao", "Total investido em não: R$" + previsao[6]);
+    </script>
+    <!--<script src="/javascript/index.js"></script>-->
+    <script>
+        window.MyToken = "<%= MyToken %>";
+        window.MercadoSimples = "<%= MercadoSimples %>";
+        window.idDaPrevisao = "<%= idDaPrevisao %>";
+    </script>
+</head>
+<body>
+    <h1 id="titulo"></h1>
+    <p id="descricao"></p>
+    <p id="status"></p>
+    <p id="votosSim"></p>
+    <p id="votosNao"></p>
+    <p id="totalSim"></p>
+    <p id="totalNao"></p>
+</body>
+</html>
