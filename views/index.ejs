@@ -25,24 +25,26 @@
 
                 // Create a new div container for the link
                 let linkContainer = document.createElement('div');
-                
+
                 // Add the specified class to the div
                 linkContainer.classList.add('link-container');
 
-                // Create a new link element
-                let link = document.createElement('a');
-                link.href = `/previsao/${i}`; // Set the link's href
-                link.textContent = previsao[0]; // Set the link's text
-                
-                // Append the link to the div container
-                linkContainer.appendChild(link);
-                
+                // Set the link destination for the whole container
+                linkContainer.addEventListener('click', function() {
+                    window.location.href = `/previsao/${i}`; // Redirect to the link
+                });
+
+                // Optionally, you can style the container to look like a link
+                linkContainer.style.cursor = 'pointer'; // Make the container show as clickable (pointer cursor)
+
+                // Set the content of the link (can be text or any HTML element)
+                linkContainer.textContent = previsao[0];
+
                 // Append the div container to the main div
                 div.appendChild(linkContainer);
-                
+
                 // Optionally, add a line break after each link container
                 div.appendChild(document.createElement('br'));
-
                 //console.log(linkContainer);
             }
         }
@@ -68,9 +70,16 @@
     </script>
 </head>
 <body>
-    <h1>E Agora?</h1>
-    <p>Um mercado de previsões opensource para quem quiser testar!</p>
-    <div class="listaprevisoes" id="listaprevisoes">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="center">
+        <h1>E Agora?</h1>
+        <p>Um mercado de previsões opensource para quem quiser testar!</p>
+        <div class="listaprevisoes" id="listaprevisoes">
+        </div>
     </div>
 </body>
 </html>
