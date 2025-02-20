@@ -4,7 +4,8 @@
   "description": "Interface grafica para interagir com contratos de mercado de predição",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "João Pedro Lourenço Affonso",
   "license": "MIT",

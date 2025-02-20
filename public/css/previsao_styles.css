@@ -1,4 +1,27 @@
-.grafico {
-    width: 20%;
-    height: 20%;
+body {
+  background-image: url('/images/previsao.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+.painel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+}
+
+.painel div {
+  width: 30%;
+}
+
+.descricaoPrevisao {
+    border: 5px solid rgb(252, 248, 48);
+    background-color: rgb(62, 93, 228);
+    color: white;
+    border-radius: 25px;
+}
+
+.descricaoPrevisao p {
+    padding-left: 5%;
 }

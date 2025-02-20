@@ -23,3 +23,7 @@ https://docs.ethers.org/v6/migrating/#migrate-providers
 ## Observação
 
 A legalidade de mercados de predição no Brasil ainda é questionável. O presente projeto tem fins meramente educacionais e exemplificativos.
+
+
+Foto de fundo da tela de previsão fornecida por <a href="https://unsplash.com/pt-br/@seanwsinclair?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Sean Sinclair</a> na <a href="https://unsplash.com/pt-br/fotografias/yellow-and-white-abstract-painting-gai1YB3UmDA?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+      

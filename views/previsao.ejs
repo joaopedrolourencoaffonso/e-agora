@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
-    <title></title>
+    <title id="tituloDaPagina"></title>
     <link rel="stylesheet" href="/css/previsao_styles.css">
     <script src="/javascript/chart.umd.js"></script>
     <script type="module" defer>
@@ -12,64 +12,35 @@
         // criando um provider com base em v6
         let provider = new ethers.BrowserProvider(window.ethereum);
 
-        // populando gráfico de investimentos
-        function createInvestmentChart(yesInvest, noInvest) {
+        // Função que cria charts
+        function createChart(yes, no,chartId,yesColor,noColor, str1, str2, title) {
             // Get the context of the canvas element
-            const ctx = document.getElementById('investmentChart').getContext('2d');
+            const ctx = document.getElementById(chartId).getContext('2d');
 
             // Create the pie chart
-            const investmentChart = new Chart(ctx, {
+            const targetChart = new Chart(ctx, {
                 type: 'pie',  // Pie chart
                 data: {
                     labels: ['Sim', 'Não'],  // Labels for the pie chart
                     datasets: [{
-                        data: [yesInvest, noInvest],  // Data for the chart
-                        backgroundColor: ['#36a2eb', '#ff6384'],  // Colors for each segment
+                        data: [yes, no],  // Data for the chart
+                        backgroundColor: [yesColor, noColor],  // Colors for each segment
                     }]
                 },
                 options: {
                     responsive: true,
                     plugins: {
+                        title: {
+                            display: true,
+                            text: title
+                        },
                         legend: {
                             position: 'bottom',
                         },
                         tooltip: {
                             callbacks: {
                                 label: function(tooltipItem) {
-                                    return tooltipItem.label + ': R$' + tooltipItem.raw;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Populando grafico de votos
-        function createVoteChart(yesVotes, noVotes) {
-            // Get the context of the canvas element
-            const ctx = document.getElementById('voteChart').getContext('2d');
-
-            // Create the pie chart
-            const voteChart = new Chart(ctx, {
-                type: 'pie',  // Pie chart
-                data: {
-                    labels: ['Sim', 'Não'],  // Labels for the pie chart
-                    datasets: [{
-                        data: [yesVotes, noVotes],  // Data for the chart
-                        backgroundColor: ['#36a2eb', '#ff6384'],  // Colors for each segment
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(tooltipItem) {
-                                    return tooltipItem.label + ': ' + tooltipItem.raw + ' votes';
+                                    return tooltipItem.label + str1 + tooltipItem.raw + str2;
                                 }
                             }
                         }
@@ -102,15 +73,24 @@
         let previsao = await contrato.getPrevisao(window.idDaPrevisao);
 
         updateElementById("titulo", previsao[0]);
+        updateElementById("tituloDaPagina", previsao[0]);
         updateElementById("descricao", "Descrição: " + previsao[1]);
-        updateElementById("status", "Status: " + previsao[4]);
         updateElementById("votosSim", "Sim: " + previsao[2]);
         updateElementById("votosNao", "Não: " + previsao[3]);
-        updateElementById("totalSim", "Total investido em sim: R$" + previsao[5]);
-        updateElementById("totalNao", "Total investido em não: R$" + previsao[6]);
+        updateElementById("totalSim", "Total investido em sim: R$" + previsao[5] + ",00");
+        updateElementById("totalNao", "Total investido em não: R$" + previsao[6] + ",00");
 
-        await createVoteChart(Number(previsao[2]),Number(previsao[3]));
-        await createInvestmentChart(Number(previsao[5]),Number(previsao[6]));
+        if (previsao[4]) {
+            updateElementById("status", "Status: Em andamento!");
+        } else {
+            updateElementById("status", "Status: Encerrada");
+        }
+
+
+        // votos
+        await createChart(Number(previsao[2]),Number(previsao[3]),'voteChart','#21ad50', '#eb4034',': ',' votos', 'Votos');
+        // investimentos
+        await createChart(Number(previsao[5]),Number(previsao[6]),'investmentChart','#21ad50', '#eb4034',": R$ ",",00","Investimentos");
     </script>
     <!--<script src="/javascript/index.js"></script>-->
     <script>
@@ -121,16 +101,23 @@
 </head>
 <body>
     <h1 id="titulo"></h1>
-    <p id="descricao"></p>
-    <p id="status"></p>
-    <p id="votosSim"></p>
-    <p id="votosNao"></p>
-    <p id="totalSim"></p>
-    <p id="totalNao"></p>
-
-    <div class="grafico">
-        <canvas id="voteChart"></canvas>
-        <canvas id="investmentChart"></canvas>
+    
+    
+    <div class="painel">
+        <div class="descricaoPrevisao">
+            <p id="descricao"></p>
+            <p id="status"></p>
+            <p id="votosSim"></p>
+            <p id="votosNao"></p>
+            <p id="totalSim"></p>
+            <p id="totalNao"></p>
+        </div>
+        <div>
+            <canvas id="voteChart"></canvas>
+        </div>
+        <div>
+            <canvas id="investmentChart"></canvas>
+        </div>
     </div>
 </body>
 </html>
