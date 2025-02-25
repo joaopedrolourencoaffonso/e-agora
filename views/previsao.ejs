@@ -12,6 +12,10 @@
         // criando um provider com base em v6
         let provider = new ethers.BrowserProvider(window.ethereum);
 
+        // Requesting signer to enable transactions
+        let signer = provider.getSigner();
+        window.signer = signer;
+
         // Função que cria charts
         function createChart(yes, no,chartId,yesColor,noColor, str1, str2, title) {
             // Get the context of the canvas element
@@ -49,7 +53,6 @@
             });
         }
 
-
         // populando elementos
         function updateElementById(var1, var2) {
             // Find the element with id = var1
@@ -64,13 +67,25 @@
         }
 
         // Importando ABI do MercadoSimples
+        const Token = await fetch('/json/MyToken.json');
+        const TokenJSON = await Token.json();
+        const TokenABI = TokenJSON["abi"];
+        window.tokenReader = new ethers.Contract(window.MyToken, TokenABI, provider);
+        window.tokenWriter = new ethers.Contract(window.MyToken, TokenABI, signer);
+        
+        
+        // Importando ABI do MercadoSimples
         const MercadoSimples = await fetch('/json/MercadoSimples.json');
         const MercadoSimplesJSON = await MercadoSimples.json();
         const MercadoSimplesABI = MercadoSimplesJSON["abi"];
-
+        
+        
         // Efetivamente contactando o contrato
-        const contrato = new ethers.Contract(window.MercadoSimples, MercadoSimplesABI, provider);
-        let previsao = await contrato.getPrevisao(window.idDaPrevisao);
+        window.contratoReader = new ethers.Contract(window.MercadoSimples, MercadoSimplesABI, provider);
+        window.contratoWriter = new ethers.Contract(window.MercadoSimples, MercadoSimplesABI, signer);
+        
+        let previsao = await window.contratoReader.getPrevisao(window.idDaPrevisao);
+        
 
         updateElementById("titulo", previsao[0]);
         updateElementById("tituloDaPagina", previsao[0]);
@@ -101,7 +116,38 @@
 </head>
 <body>
     <h1 id="titulo"></h1>
-    
+
+    <script>
+        async function InvestirSim() {
+            //let previsao = await window.contrato.getPrevisao(window.idDaPrevisao);
+            //console.log(previsao[0]);
+            let userInput = window.prompt("Digite quantos reais você deseja investir:");
+            userInput = Number(userInput);
+            
+            // Request the current accounts
+            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            console.log("==> ", accounts);
+
+            // The first account is typically the active account
+            const currentAccount = accounts[0];
+
+            console.log("Current account:", currentAccount);
+
+            // Approving transfer (state-changing function, use signer)
+            console.log("Approving transfer...");
+            //const approveTx = await window.tokenWriter.approve(window.MercadoSimples, userInput);
+            //approveTx.wait();
+            //console.log("Approve transaction hash:", approveTx.hash);
+
+            // Voting (state-changing function, use signer)
+            //console.log("Voting...");
+            //const voteTx = await window.contratoWriter.votar(window.idDaPrevisao, userInput);
+            //voteTx.wait();
+            //console.log("Vote transaction hash:", voteTx.hash);
+
+            alert("Transação bem sucedida!");
+        }
+    </script>
     
     <div class="painel">
         <div class="descricaoPrevisao">
@@ -111,6 +157,8 @@
             <p id="votosNao"></p>
             <p id="totalSim"></p>
             <p id="totalNao"></p>
+            <button class="button" onclick="InvestirSim()">Investir Sim</button>
+            <button class="button" onclick="InvestirNao()">Investir Não</button>
         </div>
         <div>
             <canvas id="voteChart"></canvas>
