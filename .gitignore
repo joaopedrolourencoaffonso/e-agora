@@ -6,3 +6,5 @@ package-lock.json
 /public/javascript/old-ethers.min.js
 /public/javascript/ethers.esm.js
 
+/public/javascript/chart.um.js
+
