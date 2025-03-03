@@ -15,15 +15,15 @@ async function InvestirSim() {
 
     // Approving transfer (state-changing function, use signer)
     console.log("Approving transfer...");
-    //const approveTx = await window.tokenWriter.approve(window.MercadoSimples, userInput);
-    //approveTx.wait();
-    //console.log("Approve transaction hash:", approveTx.hash);
+    const approveTx = await window.tokenWriter.approve(window.MercadoSimples, userInput);
+    approveTx.wait();
+    console.log("Approve transaction hash:", approveTx.hash);
 
     // Voting (state-changing function, use signer)
-    //console.log("Voting...");
-    //const voteTx = await window.contratoWriter.votar(window.idDaPrevisao, userInput);
-    //voteTx.wait();
-    //console.log("Vote transaction hash:", voteTx.hash);
+    console.log("Voting...");
+    const voteTx = await window.contratoWriter.votar(window.idDaPrevisao, userInput);
+    voteTx.wait();
+    console.log("Vote transaction hash:", voteTx.hash);
 
     alert("Transação bem sucedida!");
 }
@@ -80,7 +80,7 @@ function updateElementById(var1, var2) {
 
 async function preparaAmbiente(ethers) {
     // criando um provider com base em v6
-    let provider = new ethers.BrowserProvider(window.ethereum);
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
 
     // Requesting signer to enable transactions
     let signer = provider.getSigner();

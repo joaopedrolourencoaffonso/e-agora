@@ -16,7 +16,8 @@
         window.idDaPrevisao = "<%= idDaPrevisao %>";
 
         // Importando ethers
-        import { ethers } from "/javascript/ethers.min.js";
+        import { ethers } from "/javascript/ethers.esm.js";
+        //import { ethers } from "https://cdn.ethers.io/lib/ethers-5.0.umd.min.js";
         
         // Passando ethers para a função que de fato popula a página
         await preparaAmbiente(ethers);
