@@ -7,9 +7,10 @@
     <title>E Agora?</title>
     <link rel="stylesheet" href="/css/index_styles.css">
     <script type="module" defer>
-        import { ethers } from "/javascript/ethers.min.js";
+        import { ethers } from "/javascript/ethers.esm.js";
         // criando um provider com base em v6
-        let provider = new ethers.BrowserProvider(window.ethereum);
+        //let provider = new ethers.BrowserProvider(window.ethereum);
+        let provider = new ethers.providers.Web3Provider(window.ethereum);
 
         // função que cria o os links;
         async function iniciandoPagina(numero,provider) {

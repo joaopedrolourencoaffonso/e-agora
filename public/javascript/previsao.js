@@ -1,4 +1,4 @@
-async function InvestirSim() {
+async function Investir(resultado) {
     //let previsao = await window.contrato.getPrevisao(window.idDaPrevisao);
     //console.log(previsao[0]);
     let userInput = window.prompt("Digite quantos reais você deseja investir:");
@@ -21,11 +21,11 @@ async function InvestirSim() {
 
     // Voting (state-changing function, use signer)
     console.log("Voting...");
-    const voteTx = await window.contratoWriter.votar(window.idDaPrevisao, userInput);
+    const voteTx = await window.contratoWriter.votar(window.idDaPrevisao, resultado*userInput);
     voteTx.wait();
     console.log("Vote transaction hash:", voteTx.hash);
 
-    alert("Transação bem sucedida!");
+    alert("Transação bem sucedida!\nHash da transação para aprovar a transferência de tokens: " + approveTx.hash + "\n Transação de voto: " + voteTx.hash);
 }
 
 // Função que cria charts

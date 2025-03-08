@@ -1,7 +1,21 @@
 # E Agora?
-Interface web para interagir com contratos de predição.
 
-Acompanha o projeto [simple-prediction-market](https://github.com/joaopedrolourencoaffonso/simple-prediction-market).
+O "E agora?" é uma interface web para interagir com os contratos de predição do projeto [simple-prediction-market](https://github.com/joaopedrolourencoaffonso/simple-prediction-market).
+
+O projeto ainda está em andamento, abaixo, uma lista de metasa atingidas e a serem desenvolvidas:
+
+- [x] Contrato de predição simples com mais de 95% de cobertura.
+- [x] Interface gráfica simples que permita visualizar uma listagem das previsões em andamento.
+- [x] Interface gráfica que permita ao usuário visualizar detalhes das previsões e votar nas mesmas.
+- [ ] Contrato de predição mais avançado, que crie contratos diferentes para cada previsão, com mais de 95% de cobertura.
+- [ ] Contrato de predição baseado em recompensa invés de apostas com mais de 95% de cobertura.
+- [ ] Adaptar interface gráfica para interagir com os novos tipos de contratos
+- [ ] Interface gráfica que permita aos juízes:
+    - [ ] Ver detalhes de uma previsão
+    - [ ] Encerrar previsão
+    - [ ] Ver lista de investidores na previsão
+    - [ ] Realizar os pagamentos
+
 
 ## Copiando arquivos de ABI
 
